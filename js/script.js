@@ -110,9 +110,8 @@ function generateTags(){
     for( let tag of articleTagsArray){
       console.log(tag);
       /* generate HTML of the link */
-      // const taglinkHTML = '<li><a href="#tag-' + tag + '"><span>' + tag + '</span></a></li>';
-      const taglinkHTMLData = {id: articleTags, title: tag};
-      const taglinkHTML = templates.articleTagsLink(taglinkHTMLData);
+      const taglinkHTML = '<li><a href="#tag-' + tag + '"><span>' + tag + '</span></a></li>';
+
       console.log(taglinkHTML);
       /* add generated code to html variable */
       html = html + taglinkHTML;
@@ -193,10 +192,9 @@ function generateAuthors(){
     const articleAuthor = article.getAttribute('data-author');
     console.log(articleAuthor);
 
-    const linkHTMLData = {id: 'author-' + articleAuthor, title: articleAuthor};
-    const authorlinkHTMLTemplate = templates.authorLink(linkHTMLData);
+    const authorlinkHTML = '<li><a href="#' + authorWrapper + '"><span>' + articleAuthor + '</span></a></li>';
 
-    html = html + authorlinkHTMLTemplate;
+    html = html + authorlinkHTML;
     console.log(html);
 
     authorWrapper.innerHTML = html;
