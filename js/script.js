@@ -51,7 +51,9 @@ const optArticleSelector = '.post',
   optTitleListSelector = '.titles',
   optArticleTagsSelector = '.post-tags .list',
   optArticleAuthorSelector = '.post-author',
-  optTagsListSelector = '.tags.list';
+  optTagsListSelector = '.tags.list',
+  optCloudClassCount = 5,
+  optCloudClassPrefix = "tag-size-" ;
 
 
 function generateTitleLinks(customSelector = ''){
@@ -95,7 +97,7 @@ function calculateTagsParams(tags){
   const params = {
     max:0,
     min:999999
-  }
+  };
 
   for(let tag in tags){
     console.log(tag + ' is used ' + tags[tag] + ' times ');
@@ -105,6 +107,20 @@ function calculateTagsParams(tags){
   }
   
   return params;
+}
+
+function calculateTagClass(count, params){
+  const normalizedCount = count - params.min;
+ 	console.log('normalizedCount:', normalizedCount)
+
+	const normalizedMax = params.max - params.min;
+	console.log('normalizedMax:', normalizedMax)
+
+	const percentage = normalizedCount / normalizedMax;
+
+	const classNumber = Math.floor(percentage * (optCloudClassCount - 1) + 1);
+
+  return optCloudClassCountPrefix + classNumber;
 }
 
 function generateTags(){
@@ -125,26 +141,26 @@ function generateTags(){
     const articleTagsArray = articleTags.split(' ');
     console.log(articleTagsArray);
     /* START LOOP: for each tag */
-    for( let tag of articleTagsArray){
+      for( let tag of articleTagsArray){
       // console.log(tag);
       /* generate HTML of the link */
-      const taglinkHTML = `<li><a href="#tag-' + tag + '"><span>' + tag + '</span></a></li>`;
+        const taglinkHTML = `<li><a href="#tag-' + tag + '"><span>' + tag + '</span></a></li>`;
 
-      console.log(taglinkHTML);
+        console.log(taglinkHTML);
       /* add generated code to html variable */
-      html =+ taglinkHTML;
-      console.log(html);
+        html =+ taglinkHTML;
+        console.log(html);
       /* [NEW] check if this link is NOT already in allTags */
-      if(allTags.hasOwnProperty(tag)){
-        /* [NEW] add generated code to allTags array */
-        allTag[tag] = 1;
-      }else{
-        allTags[tag]++;
-      }
+        if(!allTags.hasOwnProperty(tag)){
+          /* [NEW] add generated code to allTags array */
+          allTags[tag] = 1;
+        }else{
+          allTags[tag]++;
+        }
       //taglist.innerHTML = allTags.join(' ');
       console.log(allTags);
       /* END LOOP: for each tag */
-    } 
+      } 
     /* insert HTML of all the links into the tags wrapper */
     titleList.innerHTML = html;
   }
@@ -160,7 +176,7 @@ function generateTags(){
   const tagsParams = calculateTagsParams(allTags);
   console.log('tagParams:',tagsParams);
 
-  let allTagsHTML = '';
+  let allTagsHTML += taglinkHTML;
 }
 
 generateTags();
